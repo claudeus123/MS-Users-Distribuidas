@@ -1,5 +1,8 @@
 import { DataSourceOptions } from "typeorm";
 import { ConfigModule } from "@nestjs/config";
+import { DataSource } from "typeorm";
+import { User } from '../entities/user.entity'
+
 
 ConfigModule.forRoot({
     envFilePath : ".env",
@@ -15,7 +18,7 @@ const DatabaseConfig: DataSourceOptions = {
     database: process.env.TYPEORM_DATABASE,
     synchronize: process.env.TYPEORM_SYNCHRONIZE === "true",
     logging: process.env.TYPEORM_LOGGING === "true",
-    entities: [],
+    entities: [User],
     migrations: [__dirname + '/../migrations/*{.ts,.js}'],
 }
 
@@ -29,3 +32,5 @@ class DataSourceFactory {
 
 const DataSourceConfig = DataSourceFactory.createDataSource();
 export { DataSourceConfig };
+
+export const AppDS = new DataSource(DataSourceConfig);
