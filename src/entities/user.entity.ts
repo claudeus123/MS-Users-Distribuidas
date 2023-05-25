@@ -1,3 +1,4 @@
+import { comparePassword } from "src/utils/bcrypt";
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 
@@ -11,20 +12,21 @@ export class User {
     @Column({nullable: false})
     password: string;
     
-    @Column({nullable: false, unique: true})
+    @Column({nullable: false, unique: true}) // Esto igual
     email: string;
     
     @Column()
     city: string;
     
     @Column()
-    role: string;
+    role: string = 'user';
     
-    @Column({default: () => 'CURRENT_TIMESTAMP'})
+    @Column({ default: () => 'CURRENT_TIMESTAMP' })
+    // Arreglar esto
     created_at: Date;
     
     validatePassword(password: string): boolean{
-        return this.password === password;
+        return comparePassword(password, this.password);
     }
 
     getInfoToToken() {
