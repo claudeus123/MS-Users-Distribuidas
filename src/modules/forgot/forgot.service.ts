@@ -19,7 +19,7 @@ export class ForgotService {
 
         // console.log(user);
         const decryptedPassword = this.generateRandomPassword(10);
-        const password =decryptedPassword;
+        const password = encodePassword(decryptedPassword);
         const inputData = { password: password};
         const updateDto = plainToClass(UpdateUserDto, inputData);
         await this.userService.update(forgotDto.email, updateDto);
