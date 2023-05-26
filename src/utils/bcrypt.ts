@@ -9,3 +9,4 @@ export function encodePassword(rawPassword: string) {
 export function comparePassword(password1: string, hash: string){
     return bcrypt.compareSync(password1, hash);
 }
+

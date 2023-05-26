@@ -18,15 +18,16 @@ export class UsersController {
   //   return this.usersService.findAll();
   // }
 
-  @Get(':username')
-  findOne(@Param('username') username: string) {
-    return this.usersService.findOne(username);
+  @Get(':email')
+  async findOne(@Param('email') email: string) {
+    console.log(email);
+    return await this.usersService.findOne(email);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.usersService.update(+id, updateUserDto);
-  // }
+  @Patch(':email')
+  async update(@Param('email') email: string, @Body() updateUserDto: UpdateUserDto) {
+    return await this.usersService.update(email, updateUserDto);
+  }
 
   // @Delete(':id')
   // remove(@Param('id') id: string) {

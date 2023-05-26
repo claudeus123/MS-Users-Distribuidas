@@ -6,6 +6,7 @@ import { DataSourceConfig } from './config/orm.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { ForgotModule } from './modules/forgot/forgot.module';
 
 
 @Module({
@@ -18,7 +19,8 @@ import { AuthModule } from './modules/auth/auth.module';
       ... DataSourceConfig
     }),
     UsersModule,
-    AuthModule
+    AuthModule,
+    ForgotModule
   ],
   controllers: [AppController],
   providers: [AppService],

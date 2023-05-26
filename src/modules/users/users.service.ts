@@ -34,12 +34,19 @@ export class UsersService {
         }
       }
     )
+    console.log(user);
     if (user) return user;
     return null;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(email: string, updateUserDto: UpdateUserDto) {
+    const user = await this.findOne(email);
+    if (!user) return null;
+
+    user.password = encodePassword(updateUserDto.password);
+    return this.userRepository.save(user);
+
+
   }
 
   remove(id: number) {
