@@ -44,7 +44,7 @@ export class UsersService {
     if (!user) return null;
 
     user.password = encodePassword(updateUserDto.password);
-    return this.userRepository.save(user);
+    return await this.userRepository.save(user);
 
 
   }

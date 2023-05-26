@@ -32,8 +32,8 @@ export class User {
     getInfoToToken() {
         return {
             id: this.id,
-            mail: this.email,
             city: this.city,
+            role: this.role
         }
     }
 }
