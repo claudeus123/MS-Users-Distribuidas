@@ -34,7 +34,7 @@ export class UsersService {
         }
       }
     )
-    console.log(user);
+    // console.log(user);
     if (user) return user;
     return null;
   }

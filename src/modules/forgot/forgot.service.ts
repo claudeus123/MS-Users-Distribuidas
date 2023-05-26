@@ -4,7 +4,7 @@ import * as crypto from 'crypto';
 
 import { plainToClass } from 'class-transformer';
 import { UpdateUserDto } from '../users/dto/update-user.dto';
-import { encodePassword } from 'src/utils/bcrypt';
+import { comparePassword, encodePassword } from 'src/utils/bcrypt';
 import { ForgotUserDto } from './dto/forgot-user.dto';
 
 @Injectable()
@@ -18,8 +18,8 @@ export class ForgotService {
         if(!user) return null;
 
         // console.log(user);
-        const decryptedPassword = this.generateRandomPassword(10);
-        const password = encodePassword(decryptedPassword);
+        const password = this.generateRandomPassword(10);
+        // const encodedPassword = decryptedPassword;
         const inputData = { password: password};
         const updateDto = plainToClass(UpdateUserDto, inputData);
         await this.userService.update(forgotDto.email, updateDto);
@@ -27,7 +27,7 @@ export class ForgotService {
 
         return [
             user,
-            decryptedPassword
+            password
         ]
     }
 
