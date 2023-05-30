@@ -1,5 +1,6 @@
-import { comparePassword } from "src/utils/bcrypt";
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { comparePassword } from "../utils/bcrypt";
+
 
 
 @Entity({
@@ -24,7 +25,7 @@ export class User {
     @Column({ default: () => 'CURRENT_TIMESTAMP' })
     // Arreglar esto
     created_at: Date;
-    
+
     validatePassword(password: string): boolean{
         return comparePassword(password, this.password);
     }
