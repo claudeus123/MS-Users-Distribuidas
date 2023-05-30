@@ -6,11 +6,12 @@ import { plainToClass } from 'class-transformer';
 import { UpdateUserDto } from '../users/dto/update-user.dto';
 import { comparePassword, encodePassword } from 'src/utils/bcrypt';
 import { ForgotUserDto } from './dto/forgot-user.dto';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class ForgotService {
 
-    constructor(private userService: UsersService){}
+    constructor(private userService: UsersService, private readonly mailerService: MailerService){}
 
     async forgotPassword(forgotDto: ForgotUserDto){
         
@@ -18,7 +19,7 @@ export class ForgotService {
         if(!user) return null;
 
         // console.log(user);
-        const password = this.generateRandomPassword(10);
+        const password = this.generateRandomPassword(20);
         // const encodedPassword = decryptedPassword;
         const inputData = { password: password};
         const updateDto = plainToClass(UpdateUserDto, inputData);
@@ -26,7 +27,6 @@ export class ForgotService {
 
 
         return [
-            user,
             password
         ]
     }
@@ -42,4 +42,18 @@ export class ForgotService {
 
         return passwordArray.join('');
     }
+
+
+    async sendMail(forgotDto: ForgotUserDto) {
+        const password = await this.forgotPassword(forgotDto);
+        const email = forgotDto?.email
+        // console.log('ola')
+        this.mailerService.sendMail({
+            to: email,
+            from: 'claudiopizarro2010@gmail.com',
+            subject: 'Reinicio de contraseña ✔', 
+            
+            html: 'La nueva contraseña es:' + '<b>' + password + '</b>',
+        });
+      }
 }

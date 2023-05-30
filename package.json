@@ -25,6 +25,7 @@
     "m:c": "npm run typeorm:init migration:create"
   },
   "dependencies": {
+    "@nestjs-modules/mailer": "^1.8.1",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.2",
     "@nestjs/core": "^9.0.0",
@@ -36,6 +37,7 @@
     "class-transformer": "^0.5.1",
     "crypto": "^1.0.1",
     "mysql": "^2.18.1",
+    "nodemailer": "^6.9.3",
     "pg": "^8.11.0",
     "postgres": "^3.3.4",
     "reflect-metadata": "^0.1.13",

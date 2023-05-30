@@ -9,7 +9,7 @@ export class ForgotController {
   @Post()
   async renewPassword(@Body() forgotDto: ForgotUserDto){
     // console.log(forgotDto);
-    return await this.forgotService.forgotPassword(forgotDto);
+    return await this.forgotService.sendMail(forgotDto);
   }
   
 
