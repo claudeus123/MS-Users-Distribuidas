@@ -20,10 +20,10 @@ export class UsersController {
     return await this.usersService.register(registerDto);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.usersService.findAll();
-  // }
+    @Get()
+    findAll() {
+      return this.usersService.findAll();
+    }
 
   @Get(':email')
   async findOne(@Param('email') email: string) {

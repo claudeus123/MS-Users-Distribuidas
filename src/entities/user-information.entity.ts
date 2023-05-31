@@ -1,14 +1,12 @@
-import { Entity, PrimaryColumn, Column, OneToOne, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from "typeorm";
 import { User } from "./user.entity";
 
 @Entity({
     name: 'user_information'
 })
 export class UserInformation {
-    @OneToOne(() => User)
-    @JoinColumn()
-    @PrimaryColumn()
-    user_id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
     @Column({nullable: true})
     birthdate: Date;

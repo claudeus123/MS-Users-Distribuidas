@@ -43,34 +43,27 @@ export class UsersService {
 
   async createProfile(registerDto: RegisterDto, user: User) {
     
-    console.log(registerDto);
-    console.log(registerDto?.first_name);
-    
     const createProfile: UpdateProfileDto = {
-      user_id: user?.id,
+      // user_id: user?.id,
       first_name: registerDto?.first_name,
       last_name: registerDto?.last_name
     };
-    console.log(createProfile);
-    const userInformation = this.userInformationRepository.create(createProfile)
-    console.log(userInformation);
-    return await this.userInformationRepository.save(userInformation);
 
-    return [
-      user,
-      userInformation
-    ]
+    const userInformation = this.userInformationRepository.create(createProfile)
+    return await this.userInformationRepository.save(userInformation);
   }
   async register(registerDto: RegisterDto){
     const user = await this.createUser(registerDto);
     const userProfile = await this.createProfile(registerDto, user);
+    user.user_information = userProfile;
+    
     return [
       user,
       userProfile
     ]
   }
-  findAll() {
-    return `This action returns all users`;
+  async findAll() {
+    return await this.userRepository.find();
   }
 
   async findOne(email: string) {
