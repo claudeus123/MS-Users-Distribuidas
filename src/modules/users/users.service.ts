@@ -55,15 +55,14 @@ export class UsersService {
   async register(registerDto: RegisterDto){
     const user = await this.createUser(registerDto);
     const userProfile = await this.createProfile(registerDto, user);
-    user.user_information = userProfile;
-    
-    return [
-      user,
-      userProfile
-    ]
+    user.userInformationId = userProfile;
+    console.log(user.userInformationId);
+    return this.userRepository.save(user);
   }
   async findAll() {
-    return await this.userRepository.find();
+    return await this.userRepository.find({
+      relations: ['userInformationId']
+    });
   }
 
   async findOne(email: string) {
@@ -71,7 +70,8 @@ export class UsersService {
       {
         where: {
           email: email
-        }
+        },
+        relations: ['userInformationId']
       }
     )
     // console.log(user);

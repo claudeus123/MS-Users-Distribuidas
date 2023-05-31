@@ -29,7 +29,7 @@ export class User {
 
     @OneToOne(() => UserInformation)
     @JoinColumn()
-    user_information: UserInformation
+    userInformationId: UserInformation
 
     validatePassword(password: string): boolean{
         return comparePassword(password, this.password);
