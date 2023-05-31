@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { UserLoginDto } from './dto/user-login.dto';
@@ -23,5 +23,12 @@ export class AuthService {
             token: token,
             user: user
         }
+    }
+
+    async validate(payload: any){
+        const { id } = payload;
+        const user = await this.userService.findUser(id);
+        if (!user) throw new HttpException('Usuario no encontrado', 401)
+        return user;
     }
 }
