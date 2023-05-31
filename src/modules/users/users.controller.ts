@@ -30,7 +30,8 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   async profile(@Request() req){
-    return req.user;
+    const { id } = req.user;
+    return await this.usersService.profile(id);
   }
 
   // @Get(':email')

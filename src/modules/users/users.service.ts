@@ -105,4 +105,23 @@ export class UsersService {
   remove(id: number) {
     return `This action removes a #${id} user`;
   }
+
+  async profile (id: number){
+    const user = await this.userRepository.findOne(
+      {
+        where: {
+          id: id
+        },
+        relations: ['userInformationId']
+      }
+    )
+    // console.log(user);
+    if (!user) return null;
+
+    return [
+      user.email,
+      user.city,
+      user.userInformationId
+    ]
+  }
 }
