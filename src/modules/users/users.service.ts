@@ -56,7 +56,7 @@ export class UsersService {
     const user = await this.createUser(registerDto);
     const userProfile = await this.createProfile(registerDto, user);
     user.userInformationId = userProfile;
-    console.log(user.userInformationId);
+    // console.log(user.userInformationId);
     return this.userRepository.save(user);
   }
   async findAll() {
@@ -83,7 +83,7 @@ export class UsersService {
     const user = await this.userRepository.findOne({
       where: {
         id: id
-      }
+      }, relations: ['userInformationId','sessions']
     })
 
     console.log(user);
@@ -121,6 +121,7 @@ export class UsersService {
     return [
       user.email,
       user.city,
+      user.role,
       user.userInformationId
     ]
   }

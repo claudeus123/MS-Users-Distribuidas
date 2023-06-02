@@ -4,13 +4,16 @@ import { AuthController } from './auth.controller';
 import { UsersModule} from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersSessions } from 'src/entities/user-sessions';
 
 @Module({
   imports: [UsersModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: {expiresIn: '1d'}
-    })
+    }),
+    TypeOrmModule.forFeature([UsersSessions])
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy]

@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, OneToMany } from "typeorm";
 import { comparePassword } from "../utils/bcrypt";
 import { UserInformation } from "./user-information.entity";
+import { UsersSessions } from "./user-sessions";
 
 
 
@@ -30,6 +31,9 @@ export class User {
     @OneToOne(() => UserInformation)
     @JoinColumn()
     userInformationId: UserInformation
+
+    @OneToMany(() => UsersSessions, session => session.user)
+    sessions: UsersSessions[]
 
     validatePassword(password: string): boolean{
         return comparePassword(password, this.password);
