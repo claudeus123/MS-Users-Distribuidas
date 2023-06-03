@@ -86,13 +86,14 @@ export class UsersService {
       }, relations: ['userInformationId','sessions']
     })
 
-    console.log(user);
-    console.log(id);
+    // console.log(user);
+    // console.log(id);
     if (user) return user;
     return null;
   }
 
   async update(email: string, updateUserDto: UpdateUserDto) {
+    //FAltA IMPL DE CAMBIO DE BIRTHDATE
     const user = await this.findOne(email);
     if (!user) return null;
 

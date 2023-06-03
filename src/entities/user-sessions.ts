@@ -13,6 +13,8 @@ export class UsersSessions {
 
     // @Column()
     // user_id: number;
+    @Column()
+    valid: boolean = true;
 
     @ManyToOne(() => User, user => user.sessions)
     user: User;
