@@ -55,15 +55,16 @@ export class UsersController {
 
   // }
 
-  @Patch(':email')
-  async update(@Param('email') email: string, @Body() updateUserDto: UpdateUserDto) {
-    return await this.usersService.update(email, updateUserDto);
-  }
+  // @Patch(':email')
+  // async update(@Param('email') email: string, @Body() updateUserDto: UpdateUserDto) {
+  //   return await this.usersService.update(email, updateUserDto);
+  // }
 
   @Patch('edit')
   @UseGuards(JwtAuthGuard)
-  async editInformation(@Request() req) {
-
+  async editInformation(@Request() req, @Body() updateUserDto: UpdateUserDto) {
+    const user = req.user;
+    await this.usersService.update(user, updateUserDto);
   }
 
   // @Delete(':id')

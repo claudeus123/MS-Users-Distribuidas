@@ -23,7 +23,7 @@ export class ForgotService {
         // const encodedPassword = decryptedPassword;
         const inputData = { password: password};
         const updateDto = plainToClass(UpdateUserDto, inputData);
-        await this.userService.update(forgotDto.email, updateDto);
+        await this.userService.changePassword(forgotDto.email, updateDto);
 
 
         return [

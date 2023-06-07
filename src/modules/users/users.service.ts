@@ -95,14 +95,28 @@ export class UsersService {
     return null;
   }
 
-  async update(email: string, updateUserDto: UpdateUserDto) {
-    //FAltA IMPL DE CAMBIO DE BIRTHDATE
+  async changePassword(email: string, updateUserDto: UpdateUserDto) {
     const user = await this.findOne(email);
     if (!user) return null;
 
     user.password = encodePassword(updateUserDto.password);
     return await this.userRepository.save(user);
 
+  }
+
+  async update(user: User, updateUserDto: UpdateUserDto) {
+    if (!user) return null;
+    const userInformation = user.userInformationId;
+    // if(updateUserDto.birthdate) {
+    //   const date = new Date(updateUserDto.birthdate+"T00:00:00.000Z");
+    //   console.log(date);
+    //   // Tira cualquier wea ASDNKASDNKASDNK
+    //   userInformation.birthdate = date;
+    // }
+    if(updateUserDto.password) await this.changePassword(user.email, updateUserDto);
+    if (updateUserDto.nickname) userInformation.nickname = updateUserDto.nickname;
+    
+    await this.userInformationRepository.save(userInformation);
 
   }
 

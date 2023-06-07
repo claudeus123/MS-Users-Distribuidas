@@ -8,8 +8,8 @@ export class UserInformation {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({nullable: true})
-    birthdate: Date;
+    // @Column({nullable: true})
+    // birthdate: Date;
 
     @Column()
     first_name: string;

@@ -1,4 +1,4 @@
-import { Controller, Get, Body } from '@nestjs/common';
+import { Controller, Get, Body, Post } from '@nestjs/common';
 import { TokenService } from './token.service';
 import { CloseSessionDto } from './dto/close-session.dto';
 
@@ -11,7 +11,7 @@ export class TokenController {
   //   return await this.tokenService.findToken(token);
   // }
 
-  @Get('close')
+  @Post('close')
   async close(@Body('token') closeSessionDto :CloseSessionDto){
     return await this.tokenService.closeSession(closeSessionDto?.jwt);
   }
