@@ -11,6 +11,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { TokenModule } from './modules/token/token.module';
 import { JwtMiddleware } from './middlewares/jwt-middleware';
 import { JwtModule } from '@nestjs/jwt';
+import { MulterModule } from '@nestjs/platform-express/multer';
 
 
 @Module({
@@ -32,6 +33,10 @@ import { JwtModule } from '@nestjs/jwt';
         }
       }
     }),
+    MulterModule.register({
+      dest: './uploads',
+      
+    }),
     UsersModule,
     AuthModule,
     ForgotModule,
@@ -47,6 +52,12 @@ export class AppModule implements NestModule{
       .apply(JwtMiddleware)
       .forRoutes('users/profile')
 
-      // 
+      consumer
+      .apply(JwtMiddleware)
+      .forRoutes('users/upload')
+
+      // consumer
+      // .apply(JwtMiddleware)
+      // .forRoutes('users/edit')
   }
 }

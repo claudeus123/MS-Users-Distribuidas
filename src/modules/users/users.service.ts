@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository } from 'typeorm';
@@ -8,6 +8,9 @@ import { encodePassword } from 'src/utils/bcrypt';
 import { UserInformation } from 'src/entities/user-information.entity';
 import { RegisterDto } from './dto/register.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { createWriteStream, unlink } from 'fs';
+import * as fs from 'fs';
+
 
 
 @Injectable()
@@ -125,5 +128,31 @@ export class UsersService {
       user.role,
       user.userInformationId
     ]
+  }
+
+  async uploadImage(id: number, file){
+      const path = './uploads/' + id + "." +file.originalname.split('.')[1]; // Ruta completa de destino del archivo
+      // if (fs.existsSync(path)) => PARA ELIMINAR DE BDD + await unlink(path);
+      
+      const user =  await this.findUser(id);
+      const userInformation = user.userInformationId
+
+      // if(fs.existsSync(userInformation.profile_image)) await unlink(userInformation.profile_image,{ force: true });
+      if (fs.existsSync(userInformation.profile_image)) {
+        unlink(userInformation.profile_image, (err) => {
+          if (err) console.log(err);
+        });
+      }
+      
+      const writeStream = createWriteStream(path);
+      writeStream.write(file.buffer);
+      writeStream.end();
+
+      userInformation.profile_image = path;
+      await this.userInformationRepository.save(userInformation); 
+
+      // console.log(file);
+      return HttpStatus.OK;
+    
   }
 }

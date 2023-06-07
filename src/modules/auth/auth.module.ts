@@ -11,7 +11,7 @@ import { UsersSessions } from 'src/entities/user-sessions';
   imports: [UsersModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET,
-      signOptions: {expiresIn: '1d'}
+      signOptions: {expiresIn: '5y'}
     }),
     TypeOrmModule.forFeature([UsersSessions])
   ],

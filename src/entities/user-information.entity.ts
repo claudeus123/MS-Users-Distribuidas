@@ -17,5 +17,10 @@ export class UserInformation {
     @Column()
     last_name: string;
 
+    @Column({nullable: true})
+    nickname: string;
+
+    @Column({nullable: true})
+    profile_image: string;
     
 }
