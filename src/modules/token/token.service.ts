@@ -15,10 +15,10 @@ export class TokenService {
                 valid: true
             }
         })
-        console.log("a")
-        console.log(session);
+        // console.log("a")
+        // console.log(session);
         if (!session) return null;
-        console.log("ola?")
+        // console.log("ola?")
         return session;
     }
 

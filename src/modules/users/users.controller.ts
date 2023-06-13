@@ -38,27 +38,20 @@ export class UsersController {
   async profile(@Request() req){
     // console.log(req.headers);
     // console.log(req.headers.authorization);
+    // console.log(req);
     const { id } = req.user;
     return await this.usersService.profile(id);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Patch('password')
+  async changePassword(@Request() req, @Body() updateUserDto: UpdateUserDto) {
+    
+    const { email } = req.user;
+    // console.log(email);
+    return await this.usersService.changePassword(email, updateUserDto);
+  }
 
-  // @Get(':email')
-  // async findOne(@Param('email') email: string) {
-  //   console.log(email);
-  //   return await this.usersService.findOne(email);
-  // }
-
-  // @Get(':id')
-  // async findOneById(@Param('id') id: number){
-  //   return await this.usersService.findUser(id);
-
-  // }
-
-  // @Patch(':email')
-  // async update(@Param('email') email: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return await this.usersService.update(email, updateUserDto);
-  // }
 
   @Patch('edit')
   @UseGuards(JwtAuthGuard)

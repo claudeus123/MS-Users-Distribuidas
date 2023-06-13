@@ -15,7 +15,7 @@ export class JwtMiddleware implements NestMiddleware{
             const jwt = token.split(' ')[1]
             const validationToken = await this.tokenService.findToken(jwt);
             // console.log("Aca no hay token")
-            // console.log(validationToken)
+            console.log(validationToken)
             if (!validationToken) throw new HttpException('Invalid token', 401);
             next()
             
