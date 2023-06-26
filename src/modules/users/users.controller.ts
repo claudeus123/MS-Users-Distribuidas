@@ -7,6 +7,8 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { createReadStream, createWriteStream } from 'fs';
 import { join } from 'path';
+import { User } from 'src/entities/user.entity';
+import { UserInformation } from 'src/entities/user-information.entity';
 // import { diskStorage } from 'multer';
 // import path from 'path';
 // import { v4 as uuidv4 } from 'uuid'
@@ -16,26 +18,26 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
+  async create(@Body() createUserDto: CreateUserDto):Promise<User> {
     console.log(createUserDto);
     return await this.usersService.create(createUserDto);
   }
 
   @Post('register')
-  async register(@Body() registerDto: RegisterDto) {
+  async register(@Body() registerDto: RegisterDto):Promise<User> {
     // console.log(registerDto);
     return await this.usersService.register(registerDto);
   }
 
   
   @Get()
-  findAll() {
+  findAll():Promise<User[]> {
     return this.usersService.findAll();
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('profile')
-  async profile(@Request() req){
+  async profile(@Request() req): Promise<(string | UserInformation)[]>{
     // console.log(req.headers);
     // console.log(req.headers.authorization);
     // console.log(req);
@@ -45,7 +47,7 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Patch('password')
-  async changePassword(@Request() req, @Body() updateUserDto: UpdateUserDto) {
+  async changePassword(@Request() req, @Body() updateUserDto: UpdateUserDto): Promise<User> {
     
     const { email } = req.user;
     // console.log(email);
@@ -55,7 +57,7 @@ export class UsersController {
 
   @Patch('edit')
   @UseGuards(JwtAuthGuard)
-  async editInformation(@Request() req, @Body() updateUserDto: UpdateUserDto) {
+  async editInformation(@Request() req, @Body() updateUserDto: UpdateUserDto):Promise<void> {
     const user = req.user;
     await this.usersService.update(user, updateUserDto);
   }

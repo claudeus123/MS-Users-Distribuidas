@@ -13,7 +13,7 @@ export class ForgotService {
 
     constructor(private userService: UsersService, private readonly mailerService: MailerService){}
 
-    async forgotPassword(forgotDto: ForgotUserDto){
+    async forgotPassword(forgotDto: ForgotUserDto): Promise<string>{
         
         const user = await this.userService.findOne(forgotDto.email);
         if(!user) return null;
@@ -26,9 +26,8 @@ export class ForgotService {
         await this.userService.changePassword(forgotDto.email, updateDto);
 
 
-        return [
-            password
-        ]
+        return password
+        
     }
 
     generateRandomPassword(length: number): string {
@@ -44,7 +43,7 @@ export class ForgotService {
     }
 
 
-    async sendMail(forgotDto: ForgotUserDto) {
+    async sendMail(forgotDto: ForgotUserDto): Promise<void> {
         const password = await this.forgotPassword(forgotDto);
         const email = forgotDto?.email
         // console.log('ola')

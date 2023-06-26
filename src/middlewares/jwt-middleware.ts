@@ -6,7 +6,7 @@ import { TokenService } from "src/modules/token/token.service";
 @Injectable()
 export class JwtMiddleware implements NestMiddleware{
     constructor(private jwtService: JwtService, private tokenService: TokenService){}
-    async use(req: Request, res: Response, next: NextFunction) {
+    async use(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {   
             // console.log("Pase por el middleware");
             const token = req.headers.authorization;

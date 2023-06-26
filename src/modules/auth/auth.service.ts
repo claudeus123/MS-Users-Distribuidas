@@ -17,7 +17,10 @@ export class AuthService {
         private jwtService: JwtService
     ) {}
 
-    async login(userLoginDto: UserLoginDto){
+    async login(userLoginDto: UserLoginDto): Promise<{
+        token: string;
+        
+    }>{
         const user = await this.userService.findOne(userLoginDto.email);
         if (!user) return null;
         if(!user.validatePassword(userLoginDto.password)) return null;
@@ -28,13 +31,11 @@ export class AuthService {
 
         const session = await this.addSession(user, token);
         return {
-            token: token,
-            user: user,
-            session
+            token: token
         }
     }
 
-    async addSession(user: User, token: string){
+    async addSession(user: User, token: string): Promise<UsersSessions>{
         const userSession: UserSessionDto = {
             jwt: token
         };
@@ -45,7 +46,7 @@ export class AuthService {
 
     }
 
-    async validate(payload: any){
+    async validate(payload: any): Promise<User>{
         const { id } = payload;
         console.log(typeof(payload));// object
         const user = await this.userService.findUser(id);

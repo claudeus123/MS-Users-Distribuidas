@@ -23,13 +23,13 @@ export class UsersService {
     
   }
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<User> {
     const password = encodePassword(createUserDto.password);
     const user =  this.userRepository.create({...createUserDto, password});
     return await this.userRepository.save(user);
   }
 
-  async createUser(registerDto: RegisterDto) {
+  async createUser(registerDto: RegisterDto): Promise<User> {
     const password = encodePassword(registerDto?.password);
     registerDto.password = password;
 
@@ -44,7 +44,7 @@ export class UsersService {
     return await this.userRepository.save(user);
   }
 
-  async createProfile(registerDto: RegisterDto, user: User) {
+  async createProfile(registerDto: RegisterDto, user: User): Promise<UserInformation> {
     
     const createProfile: UpdateProfileDto = {
       // user_id: user?.id,
@@ -55,20 +55,20 @@ export class UsersService {
     const userInformation = this.userInformationRepository.create(createProfile)
     return await this.userInformationRepository.save(userInformation);
   }
-  async register(registerDto: RegisterDto){
+  async register(registerDto: RegisterDto): Promise<User>{
     const user = await this.createUser(registerDto);
     const userProfile = await this.createProfile(registerDto, user);
     user.userInformationId = userProfile;
     // console.log(user.userInformationId);
     return this.userRepository.save(user);
   }
-  async findAll() {
+  async findAll(): Promise<User[]> {
     return await this.userRepository.find({
       relations: ['userInformationId','sessions']
     });
   }
 
-  async findOne(email: string) {
+  async findOne(email: string): Promise<User> {
     const user = await this.userRepository.findOne(
       {
         where: {
@@ -82,7 +82,7 @@ export class UsersService {
     return null;
   }
 
-  async findUser(id: number) {
+  async findUser(id: number): Promise<User> {
     const user = await this.userRepository.findOne({
       where: {
         id: id
@@ -95,7 +95,7 @@ export class UsersService {
     return null;
   }
 
-  async changePassword(email: string, updateUserDto: UpdateUserDto) {
+  async changePassword(email: string, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.findOne(email);
     if (!user) return null;
     // console.log(user);
@@ -105,7 +105,7 @@ export class UsersService {
 
   }
 
-  async update(user: User, updateUserDto: UpdateUserDto) {
+  async update(user: User, updateUserDto: UpdateUserDto): Promise<any> {
     if (!user) return null;
     const userInformation = user.userInformationId;
     if(updateUserDto.city) user.city = updateUserDto.city;
@@ -122,7 +122,7 @@ export class UsersService {
     return `This action removes a #${id} user`;
   }
 
-  async profile (id: number){
+  async profile (id: number): Promise<(string | UserInformation)[]>{
     const user = await this.userRepository.findOne(
       {
         where: {

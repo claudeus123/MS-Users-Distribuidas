@@ -8,7 +8,7 @@ import { Repository } from 'typeorm';
 export class TokenService {
     constructor(@InjectRepository(UsersSessions) private sessionsRepository: Repository<UsersSessions>){}
     
-    async findToken(token: string) {
+    async findToken(token: string): Promise<UsersSessions> {
         const session = await this.sessionsRepository.findOne({
             where: {
                 jwt: token,
@@ -22,7 +22,7 @@ export class TokenService {
         return session;
     }
 
-    async closeSession(token: string) {
+    async closeSession(token: string): Promise<UsersSessions> {
         const session = await this.findToken(token);
         if (!session) return null;
 

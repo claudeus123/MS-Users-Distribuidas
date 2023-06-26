@@ -7,7 +7,7 @@ export class ForgotController {
   constructor(private readonly forgotService: ForgotService) {}
 
   @Post()
-  async renewPassword(@Body() forgotDto: ForgotUserDto){
+  async renewPassword(@Body() forgotDto: ForgotUserDto): Promise<void> {
     // console.log(forgotDto);
     return await this.forgotService.sendMail(forgotDto);
   }
