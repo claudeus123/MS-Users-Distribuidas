@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository } from 'typeorm';
@@ -56,6 +56,9 @@ export class UsersService {
     return await this.userInformationRepository.save(userInformation);
   }
   async register(registerDto: RegisterDto): Promise<User>{
+    const userFound = await this.findOne(registerDto.email)
+    if(userFound) throw new HttpException('Usuario ya existe', HttpStatus.BAD_REQUEST)
+
     const user = await this.createUser(registerDto);
     const userProfile = await this.createProfile(registerDto, user);
     user.userInformationId = userProfile;

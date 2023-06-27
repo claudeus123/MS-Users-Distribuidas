@@ -9,7 +9,7 @@ export class TokenService {
     constructor(@InjectRepository(UsersSessions) private sessionsRepository: Repository<UsersSessions>){}
     
     async findToken(token: string): Promise<UsersSessions> {
-        const session = await this.sessionsRepository.findOne({
+        const sessions = await this.sessionsRepository.find({
             where: {
                 jwt: token,
                 valid: true
@@ -17,9 +17,10 @@ export class TokenService {
         })
         // console.log("a")
         // console.log(session);
-        if (!session) return null;
+
+        if (!sessions) return null;
         // console.log("ola?")
-        return session;
+        return sessions[sessions.length - 1];
     }
 
     async closeSession(token: string): Promise<UsersSessions> {
