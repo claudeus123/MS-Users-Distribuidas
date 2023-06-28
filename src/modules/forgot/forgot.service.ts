@@ -16,6 +16,7 @@ export class ForgotService {
     async forgotPassword(forgotDto: ForgotUserDto): Promise<string>{
         
         const user = await this.userService.findOne(forgotDto.email);
+        console.log(user)
         if(!user) throw new HttpException("User not found", 404);
 
         // console.log(user);

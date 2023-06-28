@@ -57,6 +57,7 @@ export class UsersService {
   }
   async register(registerDto: RegisterDto): Promise<User>{
     const userFound = await this.findOne(registerDto.email)
+    // console.log(userFound);
     if(userFound) throw new HttpException('Usuario ya existe', HttpStatus.BAD_REQUEST)
 
     const user = await this.createUser(registerDto);

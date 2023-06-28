@@ -46,10 +46,10 @@ export class AuthService {
 
     }
 
-    async validate(payload: any): Promise<User>{
+    async validate(payload: {id:string}): Promise<User>{
         const { id } = payload;
         console.log(typeof(payload));// object
-        const user = await this.userService.findUser(id);
+        const user = await this.userService.findUser(+id);
         if (!user) throw new HttpException('Usuario no encontrado', 401)
         return user;
     }
