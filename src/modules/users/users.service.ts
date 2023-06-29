@@ -110,7 +110,7 @@ export class UsersService {
   }
 
   async update(user: User, updateUserDto: UpdateUserDto): Promise<any> {
-    if (!user) return null;
+    if (!user) throw new HttpException("User not found", HttpStatus.NOT_FOUND);
     const userInformation = user.userInformationId;
     if(updateUserDto.city) user.city = updateUserDto.city;
     if(updateUserDto.first_name) userInformation.first_name = updateUserDto.first_name;
