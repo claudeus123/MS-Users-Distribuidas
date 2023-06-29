@@ -39,7 +39,11 @@ export class User {
         return comparePassword(password, this.password);
     }
 
-    getInfoToToken() {
+    getInfoToToken():{
+        id: number;
+        city: string;
+        role: string;
+    } {
         return {
             id: this.id,
             city: this.city,
