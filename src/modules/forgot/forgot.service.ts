@@ -53,7 +53,7 @@ export class ForgotService {
             from: 'claudiopizarro2010@gmail.com',
             subject: 'Reinicio de contraseña ✔', 
             
-            html: 'La nueva contraseña es:' + '<b>' + password + '</b>',
+            html: 'La nueva contraseña es: ' + '<b>' + password + '</b>',
         });
       }
 }
