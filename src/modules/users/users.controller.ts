@@ -57,9 +57,9 @@ export class UsersController {
 
   @Patch('edit')
   @UseGuards(JwtAuthGuard)
-  async editInformation(@Request() req, @Body() updateUserDto: UpdateUserDto):Promise<void> {
+  async editInformation(@Request() req, @Body() updateUserDto: UpdateUserDto):Promise<User> {
     const user = req.user;
-    await this.usersService.update(user, updateUserDto);
+    return await this.usersService.update(user, updateUserDto);
   }
 
   // @Delete(':id')

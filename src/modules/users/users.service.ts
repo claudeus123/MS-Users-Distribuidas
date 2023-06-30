@@ -26,7 +26,9 @@ export class UsersService {
   async create(createUserDto: CreateUserDto): Promise<User> {
     const password = encodePassword(createUserDto.password);
     const user =  this.userRepository.create({...createUserDto, password});
-    return await this.userRepository.save(user);
+    await this.userRepository.save(user);
+    delete user.password;
+    return user;
   }
 
   async createUser(registerDto: RegisterDto): Promise<User> {
@@ -41,7 +43,9 @@ export class UsersService {
     };
     
     const user =  this.userRepository.create(createUser);
-    return await this.userRepository.save(user);
+    await this.userRepository.save(user);
+    delete user.password;
+    return user;
   }
 
   async createProfile(registerDto: RegisterDto, user: User): Promise<UserInformation> {
@@ -64,7 +68,9 @@ export class UsersService {
     const userProfile = await this.createProfile(registerDto, user);
     user.userInformationId = userProfile;
     // console.log(user.userInformationId);
-    return this.userRepository.save(user);
+    await this.userRepository.save(user);
+    delete user.password;
+    return user;
   }
   async findAll(): Promise<User[]> {
     return await this.userRepository.find({
@@ -82,8 +88,10 @@ export class UsersService {
       }
     )
     // console.log(user);
-    if (user) return user;
-    return null;
+    if (!user) return null;
+
+    // delete user.password;
+    return user;
   }
 
   async findUser(id: number): Promise<User> {
@@ -95,8 +103,9 @@ export class UsersService {
 
     // console.log(user);
     // console.log(id);
-    if (user) return user;
-    return null;
+    if (!user) return null;
+    // delete user.password;
+    return user;
   }
 
   async changePassword(email: string, updateUserDto: UpdateUserDto): Promise<User> {
@@ -105,11 +114,13 @@ export class UsersService {
     // console.log(user);
     // console.log(updateUserDto)
     user.password = encodePassword(updateUserDto.password);
-    return await this.userRepository.save(user);
+    await this.userRepository.save(user);
+    delete user.password;
+    return user;
 
   }
 
-  async update(user: User, updateUserDto: UpdateUserDto): Promise<any> {
+  async update(user: User, updateUserDto: UpdateUserDto): Promise<User> {
     if (!user) throw new HttpException("User not found", HttpStatus.NOT_FOUND);
     const userInformation = user.userInformationId;
     if(updateUserDto.city) user.city = updateUserDto.city;
@@ -119,7 +130,8 @@ export class UsersService {
     
     await this.userRepository.save(user);
     await this.userInformationRepository.save(userInformation);
-
+    delete user.password;
+    return user;
   }
 
   remove(id: number) {
