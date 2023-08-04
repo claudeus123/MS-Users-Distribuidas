@@ -9,3 +9,4 @@ export function comparePassword(password1: string, hash: string): boolean{
     return bcrypt.compareSync(password1, hash);
 }
 
+
